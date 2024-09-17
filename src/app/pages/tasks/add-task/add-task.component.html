@@ -1,0 +1,124 @@
+<div *ngIf="showForm" class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="new-task-modal">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-block text-center pb-3 border-bottom">
+                <h3 class="modal-title" id="exampleModalCenterTitle">Thêm nhiệm vụ</h3>
+            </div>
+            <div class="modal-body">
+                <form #taskForm="ngForm" class="task-form" [formGroup]="addTaskForm" (ngSubmit)="addTask()">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="taskName" class="h5">Tên nhiệm vụ</label>
+                                <input type="text" class="form-control" id="taskName" name="name" formControlName="name"
+                                    placeholder="Enter task Name" />
+
+                                <div *ngIf="addTaskForm.get('name')?.touched && addTaskForm.get('name')?.invalid">
+                                    <small class="text-danger" *ngIf="addTaskForm.get('name')?.errors?.['required']">
+                                        Vui lòng nhập tên !
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-3">
+                                <label for="employeeId" class="h5">Giao cho</label>
+                                <select name="employeeId" class="form-control" formControlName="employeeId">
+                                    <option value="">Thành viên</option>
+                                    <option *ngFor="let employee of employeesData" [value]="employee.employee_id">
+                                        {{employee.employee_name}}</option>
+                                </select>
+
+                                <div
+                                    *ngIf="addTaskForm.get('employeeId')?.touched && addTaskForm.get('employeeId')?.invalid">
+                                    <small class="text-danger"
+                                        *ngIf="addTaskForm.get('employeeId')?.errors?.['required']">
+                                        Vui lòng nhập tên !
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-3">
+                                <label for="projectId" class="h5">Dự án</label>
+                                <select name="projectId" class="form-control" formControlName="projectId"
+                                    id="projectId">
+                                    <option value="">Chọn dự án</option>
+                                    <option *ngFor="let project of projectsData" [value]="project.project_id">
+                                        {{project.project_name}}</option>
+                                </select>
+                                <div
+                                    *ngIf="addTaskForm.get('projectId')?.touched && addTaskForm.get('projectId')?.invalid">
+                                    <small class="text-danger"
+                                        *ngIf="addTaskForm.get('projectId')?.errors?.['required']">
+                                        Vui lòng nhập tên !
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-3">
+                                <label for="status" class="h5">Trạng thái</label>
+                                <select name="status" class="form-control" formControlName="status">
+                                    <option value="">Chọn loại trạng thái</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="complete">Complete</option>
+                                </select>
+                                <div *ngIf="addTaskForm.get('status')?.touched && addTaskForm.get('status')?.invalid">
+                                    <small class="text-danger" *ngIf="addTaskForm.get('status')?.errors?.['required']">
+                                        Vui lòng nhập tên !
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="category" class="h5">Danh mục</label>
+                                <select name="category" class="form-control" formControlName="category">
+                                    <option value="">Chọn loại công việc</option>
+                                    <option value="Design">Design</option>
+                                    <option value="Android">Android</option>
+                                    <option value="IOS">IOS</option>
+                                    <option value="Ui/Ux Design">Ui/Ux Design</option>
+                                    <option value="Development">Development</option>
+                                </select>
+                                <div
+                                    *ngIf="addTaskForm.get('category')?.touched && addTaskForm.get('category')?.invalid">
+                                    <small class="text-danger"
+                                        *ngIf="addTaskForm.get('category')?.errors?.['required']">
+                                        Vui lòng nhập tên !
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="description" class="h5">Mô tả</label>
+                                <textarea class="form-control" id="description" rows="2" name="description"
+                                    formControlName="description"></textarea>
+                                <div
+                                    *ngIf="addTaskForm.get('description')?.touched && addTaskForm.get('description')?.invalid">
+                                    <small class="text-danger"
+                                        *ngIf="addTaskForm.get('description')?.errors?.['required']">
+                                        Vui lòng nhập tên !
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="d-flex flex-wrap align-items-center justify-content-center mt-4">
+                                <button type="submit" class="btn btn-primary mr-3">Thêm</button>
+                                <button type="button" class="btn btn-primary" (click)="onBack()">Quay lại</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

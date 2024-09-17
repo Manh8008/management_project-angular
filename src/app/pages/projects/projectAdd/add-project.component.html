@@ -1,0 +1,90 @@
+<form *ngIf="showForm" [formGroup]="addProjectForm" (ngSubmit)="addProject()" id="addProjectForm">
+    <div class="modal" role="dialog" aria-modal="true" id="new-project-modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-block text-center pb-3 border-bottom">
+                    <h3 class="modal-title" id="exampleModalCenterTitle01">New Project</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="name" class="h5">Tên dự án </label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="VD: Dự án 1..." formControlName="name" />
+                                <div *ngIf="addProjectForm.get('name')?.touched && addProjectForm.get('name')?.invalid">
+                                    <small class="text-danger" *ngIf="addProjectForm.get('name')?.errors?.['required']">
+                                        Vui lòng nhập tên !
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="description" class="h5">Mô tả dự án</label>
+                                <input type="text" class="form-control" id="description" name="description"
+                                    formControlName="description" placeholder="Mô tả sự án" />
+                                <div
+                                    *ngIf="addProjectForm.get('description')?.touched && addProjectForm.get('description')?.invalid">
+                                    <small class="text-danger"
+                                        *ngIf="addProjectForm.get('description')?.errors?.['required']">
+                                        Vui lòng nhập mô tả !
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="leaderID" class="h5">Trưởng nhóm</label>
+                                <select class="form-control" id="leaderID" name="leaderId" formControlName="leaderId">
+                                    <option value="">Chọn trưởng nhóm</option>
+                                    <ng-container *ngFor=" let emp of employees">
+                                        <option *ngIf="emp.employee_role === 'leader'" [value]="emp.employee_id">
+                                            {{ emp.employee_name }}
+                                        </option>
+                                    </ng-container>
+                                </select>
+                                <div
+                                    *ngIf="addProjectForm.get('leaderId')?.touched && addProjectForm.get('leaderId')?.invalid">
+                                    <small class="text-danger"
+                                        *ngIf="addProjectForm.get('leaderId')?.errors?.['required']">
+                                        Vui lòng chọn trưởng nhóm !
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="employeeIds" class="h5">Chọn nhân viên</label>
+                                <select multiple class="form-control" id="employeeIds" multiple size="4" name="members"
+                                    formControlName="members">
+                                    <option *ngFor="let emp of employees" [ngValue]="emp.employee_id">
+                                        {{ emp.employee_name }}
+                                    </option>
+                                </select>
+                                <div
+                                    *ngIf="addProjectForm.get('members')?.touched && addProjectForm.get('members')?.invalid">
+                                    <small class="text-danger"
+                                        *ngIf="addProjectForm.get('members')?.errors?.['required']">
+                                        Vui lòng chọn nhân viên !
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="d-flex flex-wrap alig_n-items-center justify-content-center mt-2">
+                                <button type="submit" class="btn-add-project btn btn-primary mr-3">
+                                    Thêm
+                                </button>
+                                <div (click)="onBack()" class="btn btn-primary" data-dismiss="modal">
+                                    Quay lại
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

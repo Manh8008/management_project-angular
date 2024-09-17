@@ -1,0 +1,175 @@
+<div class="content-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between breadcrumb-content">
+                            <h5>Your Task</h5>
+                            <div class="d-flex flex-wrap align-items-center">
+                                <form style="margin-right: 200px;" action="#" class="searchbox"
+                                    (submit)="onSearch($event)">
+                                    <button type="submit" class="search-link border-0">
+                                        <i class="ri-search-line"></i>
+                                    </button>
+                                    <input type="text" class="text search-input border" placeholder="Tìm kiếm dự án..."
+                                        name="search" [(ngModel)]="search" />
+                                </form>
+                                <a routerLink="/tasks/addTask" class="btn btn-primary" data-target="#new-task-modal"
+                                    data-toggle="modal">New Task</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12" *ngIf="tasksData.length == 0">
+                                <small class="text-danger">Không có nhiệm vụ {{search}} nào !</small>
+                            </div>
+                            <div class="col-lg-12" *ngFor="let task of tasksData">
+                                <div class="card card-widget task-card">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-wrap align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="custom-control custom-task custom-checkbox custom-control-inline">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="customCheck{{task.task_id}}" />
+                                                    <label class="custom-control-label"
+                                                        for="customCheck{{task.task_id}}"></label>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-2">
+                                                        {{task.task_name}}
+                                                    </h5>
+                                                    <div class="media align-items-center">
+                                                        <div class="btn bg-body mr-3">
+                                                            <i class="ri-align-justify mr-2"></i>5/10
+                                                        </div>
+                                                        <div class="btn bg-body">
+                                                            <i class="ri-survey-line mr-2"></i>3
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="media align-items-center mt-md-0 mt-3">
+                                                <a href="#" class="btn bg-secondary-light mr-3">{{task.category}}</a>
+                                                <a class="btn bg-secondary-light" data-toggle="collapse"
+                                                    [attr.href]="'#collapseEdit' + task.task_id" role="button"
+                                                    aria-expanded="false"
+                                                    [attr.aria-controls]="'collapseEdit' + task.task_id">
+                                                    <i class="ri-edit-box-line m-0"></i>
+                                                </a>
+
+                                                <div class="dropdown mx-2">
+                                                    <button class="btn btn-light dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        ...
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item " data-target="#update-task-modal"
+                                                            [routerLink]="['/tasks/updateTask/', task.task_id]">Sửa</a>
+                                                        <a class="dropdown-item text-danger"
+                                                            (click)="deleteItem(task.task_id)">Xóa</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="collapse" id="collapseEdit{{task.task_id}}">
+                                    <div class="card card-list task-card">
+                                        <div
+                                            class="card-header d-flex align-items-center justify-content-between px-0 mx-3">
+                                            <div class="header-title">
+                                                <div class="custom-control custom-checkbox custom-control-inline">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="customCheck05" />
+                                                    <label class="custom-control-label h5" for="customCheck05">Đánh dấu
+                                                        đã xong</label>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <a href="#" class="btn bg-secondary-light">Design</a>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group mb-3 position-relative">
+                                                <input type="text" class="form-control bg-white"
+                                                    placeholder="Design landing page of webkit" />
+                                                <a href="#" class="task-edit task-simple-edit text-body"><i
+                                                        class="ri-edit-box-line"></i></a>
+                                            </div>
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group mb-0">
+                                                                <label for="exampleInputText2" class="h5">Nhân viên đảm
+                                                                    nhận</label>
+                                                                <p>{{task.employee_id}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group mb-0">
+                                                                <label for="exampleInputText3" class="h5">Ngày hết
+                                                                    hạn</label>
+                                                                <input type="date" class="form-control"
+                                                                    id="exampleInputText3" value="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <h5 class="mb-2">Mô tả</h5>
+                                                            <p class="mb-0">{{task.task_description}}</p>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <h5 class="mb-2">Checklist</h5>
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <div
+                                                                        class="custom-control custom-checkbox custom-control-inline mr-0">
+                                                                        <input type="checkbox"
+                                                                            class="custom-control-input"
+                                                                            id="customCheck1" />
+                                                                        <label class="custom-control-label mb-1"
+                                                                            for="customCheck1">{{task.category}}</label>
+                                                                    </div>
+                                                                    <!-- Remaining checkboxes -->
+                                                                </div>
+                                                                <!-- Remaining columns -->
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <label for="exampleInputText01" class="h5">Attachments</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="inputGroupFile001" />
+                                                <label class="custom-file-label" for="inputGroupFile001">Upload
+                                                    media</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page end  -->
+</div>

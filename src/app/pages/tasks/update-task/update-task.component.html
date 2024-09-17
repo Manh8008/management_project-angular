@@ -1,0 +1,116 @@
+<div *ngIf="showForm" id="update-task-modal">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-block text-center pb-3 border-bottom">
+                <h3 class="modal-title" id="exampleModalCenterTitle">
+                    New Task
+                </h3>
+            </div>
+            <div class="modal-body">
+                <form action="" #taskForm="ngForm" class="task-form">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="taskName" class="h5">Task Name</label>
+                                <input type="text" class="form-control" id="taskName" name="name" ngModel
+                                    #taskName="ngModel" [(ngModel)]="task.task_name" required
+                                    placeholder="Enter task Name" />
+                                <div class="text-danger text-error"
+                                    *ngIf="taskName.invalid && (taskName.dirty || taskName.touched)">
+                                    Vui lòng nhập tên công việc
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-3">
+                                <label for="employeeId" class="h5">Assigned to</label>
+                                <select name="employeeId" class="form-control" ngModel #employeeId="ngModel"
+                                    [(ngModel)]="task.employee_id">
+                                    <option value="">Memebers</option>
+                                    <option *ngFor="let employee of employeesData" [value]="employee.employee_id">
+                                        {{employee.employee_name}}</option>
+                                </select>
+                                <div class="text-danger text-error"
+                                    *ngIf="employeeId.invalid && (employeeId.dirty || employeeId.touched)">
+                                    Vui lòng chọn ít nhất một nhân viên.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-3">
+                                <label for="projectId" class="h5">Projects</label>
+                                <select name="projectId" class="form-control" ngModel #projectId="ngModel" required
+                                    [(ngModel)]="task.project_id" id="projectId">
+                                    <option value="">Select Project</option>
+                                    <option *ngFor="let project of projectsData" [value]="project.project_id">
+                                        {{project.project_name}}
+                                    </option>
+                                </select>
+                                <div class="text-danger text-error"
+                                    *ngIf="projectId.invalid && (projectId.dirty || projectId.touched)">
+                                    Vui lòng chọn dự án tham gia.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-3">
+                                <label for="status" class="h5">Status</label>
+                                <select name="status" class="form-control" ngModel #status="ngModel" required
+                                    [(ngModel)]="task.status">
+                                    <option value="">Chọn loại trạng thái</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="completed">Complete</option>
+                                    <option value="progress">progress</option>
+                                </select>
+                                <div class="text-danger text-error"
+                                    *ngIf="status.invalid && (status.dirty || status.touched)">
+                                    Vui lòng chọn trạng thái công việc.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="category" class="h5">Category</label>
+                                <select name="category" class="form-control" ngModel #category="ngModel" required
+                                    [(ngModel)]="task.category">
+                                    <option value="">Chọn loại công việc</option>
+                                    <option value="Design">Design</option>
+                                    <option value="Android">Android</option>
+                                    <option value="IOS">IOS</option>
+                                    <option value="Ui/Ux Design">Ui/Ux Design</option>
+                                    <option value="Development">Development</option>
+                                </select>
+                                <div class="text-danger text-error"
+                                    *ngIf="category.invalid && (category.dirty || category.touched)">
+                                    Vui lòng chọn loại công việc.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="description" class="h5">Description</label>
+                                <textarea class="form-control" id="description" rows="2" name="description" ngModel
+                                    [(ngModel)]="task.task_description" #description="ngModel" required></textarea>
+                                <div class="text-danger text-error"
+                                    *ngIf="description.invalid && (description.dirty || description.touched)">
+                                    Vui lòng nhập mô tả
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="d-flex flex-wrap align-items-center justify-content-center mt-4">
+                                <div class="btn btn-primary mr-3" (click)="updateTask(taskForm)" data-dismiss="modal">
+                                    Save
+                                </div>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal"
+                                    (click)="onBack()">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

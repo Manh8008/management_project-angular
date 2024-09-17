@@ -1,0 +1,95 @@
+<form *ngIf="showForm" [formGroup]="updateProjectForm" (ngSubmit)="updateProject()" id="updateProjectForm">
+    <div class="modal" role="dialog" aria-modal="true" id="update-project-modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-block text-center pb-3 border-bottom">
+                    <h3 class="modal-title" id="updateProjectTitle">Chỉnh sửa dự án</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="projectName" class="h5">Tên dự án</label>
+                                <input type="text" class="form-control" name="name" id="projectName"
+                                    formControlName="name" [(ngModel)]="project.project_name" />
+                                <div
+                                    *ngIf="updateProjectForm.get('name')?.touched && updateProjectForm.get('name')?.invalid">
+                                    <small class="text-danger"
+                                        *ngIf="updateProjectForm.get('name')?.errors?.['required']">
+                                        Vui lòng nhập tên !
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="projectDescription" class="h5">Mô tả dự án</label>
+                                <input type="text" class="form-control" id="projectDescription"
+                                    formControlName="description" [(ngModel)]="project.project_description"
+                                    name="description" required />
+                                <div
+                                    *ngIf="updateProjectForm.get('description')?.touched && updateProjectForm.get('description')?.invalid">
+                                    <small class="text-danger"
+                                        *ngIf="updateProjectForm.get('description')?.errors?.['required']">
+                                        Vui lòng nhập mô tả !
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <label for="leaderID" class="h5">Trưởng nhóm</label>
+                                <select class="form-control" id="leaderID" name="leaderId" formControlName="leaderId"
+                                    [(ngModel)]="project.project_leader_id">
+                                    <option value="">Chọn trưởng nhóm</option>
+                                    <ng-container *ngFor="let emp of employees">
+                                        <option *ngIf="emp.employee_role === 'leader'" [value]="emp.employee_id">
+                                            {{ emp.employee_name }}
+                                        </option>
+                                    </ng-container>
+                                </select>
+                                <div
+                                    *ngIf="updateProjectForm.get('leaderId')?.touched && updateProjectForm.get('leaderId')?.invalid">
+                                    <small class="text-danger"
+                                        *ngIf="updateProjectForm.get('leaderId')?.errors?.['required']">
+                                        Vui lòng chọn trưởng nhóm !
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-3">
+                                <div class="col-lg-12">
+                                    <div class="form-group mb-3">
+                                        <label for="employeeIds" class="h5">Chọn nhân viên</label>
+                                        <select multiple class="form-control" id="employeeIds" [(ngModel)]="employeeIds"
+                                            formControlName="members" multiple size="4" name="members" required>
+                                            <option *ngFor="let emp of employees" [ngValue]="emp.employee_id">
+                                                {{ emp.employee_name }}
+                                            </option>
+                                        </select>
+                                        <div
+                                            *ngIf="updateProjectForm.get('members')?.touched && updateProjectForm.get('members')?.invalid">
+                                            <small class="text-danger"
+                                                *ngIf="updateProjectForm.get('members')?.errors?.['required']">
+                                                Vui lòng chọn nhân viên !
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="d-flex flex-wrap align-items-center justify-content-center mt-2">
+                                <button type="submit" class="btn-update-project btn btn-primary mr-3">
+                                    Lưu
+                                </button>
+                                <div (click)="onBack()" class="btn btn-primary" data-dismiss="modal">Quay về</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

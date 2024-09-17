@@ -1,0 +1,186 @@
+<div class="content-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between breadcrumb-content">
+                            <h5>Nhân viên</h5>
+                            <div class="iq-search-bar device-search">
+                                <form action="#" class="searchbox" (submit)="onSearch($event)">
+                                    <button type="submit" class="search-link border-0"><i
+                                            class="ri-search-line"></i></button>
+                                    <input type="text" class="text search-input" placeholder="Tìm kiếm nhân viên "
+                                        name="search" [(ngModel)]="search" />
+                                </form>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="list-grid-toggle d-flex align-items-center mr-3">
+                                    <div data-toggle-extra="tab" data-target-extra="#grid" class="active">
+                                        <div class="grid-icon mr-3">
+                                            <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="3" y="3" width="7" height="7"></rect>
+                                                <rect x="14" y="3" width="7" height="7"></rect>
+                                                <rect x="14" y="14" width="7" height="7"></rect>
+                                                <rect x="3" y="14" width="7" height="7"></rect>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div data-toggle-extra="tab" data-target-extra="#list">
+                                        <div class="grid-icon">
+                                            <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <line x1="21" y1="10" x2="3" y2="10"></line>
+                                                <line x1="21" y1="6" x2="3" y2="6"></line>
+                                                <line x1="21" y1="14" x2="3" y2="14"></line>
+                                                <line x1="21" y1="18" x2="3" y2="18"></line>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="grid" class="item-content animate__animated animate__fadeIn active" data-toggle-extra="tab-content">
+            <div class="row">
+                <div *ngIf="employeesData.length === 0">
+                    <p class="text-danger">Không có nhân viên nào tên {{search}}!</p>
+                </div>
+                <ng-container *ngIf="employeesData.length > 0">
+                    <div class="col-lg-4 col-md-6" *ngFor="let employee of employeesData">
+                        <div class="card-transparent card-block card-stretch card-height">
+                            <div class="card-body text-center p-0">
+                                <div class="item">
+                                    <div class="odr-img">
+                                        <a routerLink="/profile"><img src="../assets/images/user/01.jpg"
+                                                class="img-fluid rounded-circle avatar-90 m-auto" alt="image" /></a>
+                                    </div>
+                                    <div class="odr-content rounded">
+                                        <h4 class="mb-2">{{ employee.employee_name }}</h4>
+                                        <p class="mb-3">{{ employee.employee_email }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+        <div id="list" class="item-content animate__animated animate__fadeIn" data-toggle-extra="tab-content">
+            <div class="table-responsive rounded bg-white mb-4">
+                <table class="table mb-0 table-borderless tbl-server-info">
+                    <thead class="border-bottom">
+                        <th>Họ tên</th>
+                        <th>Email</th>
+                        <th>Địa chỉ</th>
+                        <th>Xóa</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let employee of employeesData">
+                            <td>
+                                <div class="media align-items-center">
+                                    <img src="../assets/images/user/01.jpg" class="img-fluid rounded-circle avatar-40"
+                                        alt="image" />
+                                    <h5 class="ml-3">{{ employee.employee_name }}</h5>
+                                </div>
+                            </td>
+                            <td>{{ employee.employee_email }}</td>
+                            <td>{{ employee.employee_region }}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <a routerLink="/updateEmployee/{{employee.employee_id}}" class="text-body"
+                                        data-target="#update-user-modal" data-toggle="modal"><i
+                                            class="las la-pen mr-3"></i></a>
+                                    <a (click)="deleteEmployee(employee.employee_id)" class="text-body">
+                                        <i class="las la-trash-alt mr-0 cursor-pointer"></i>
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Page end  -->
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="new-user-modal">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-block text-center pb-3 border-bttom">
+                <h3 class="modal-title" id="exampleModalCenterTitle02">New User</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group mb-3 custom-file-small">
+                            <label for="exampleInputText01" class="h5">Upload Profile Picture</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile02" />
+                                <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputText2" class="h5">Full Name</label>
+                            <input type="text" class="form-control" id="exampleInputText2"
+                                placeholder="Enter your full name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputText04" class="h5">Phone Number</label>
+                            <input type="text" class="form-control" id="exampleInputText04"
+                                placeholder="Enter phone number" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputText006" class="h5">Email</label>
+                            <input type="text" class="form-control" id="exampleInputText006"
+                                placeholder="Enter your Email" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputText2" class="h5">Type</label>
+                            <select name="type" class="selectpicker form-control" data-style="py-0">
+                                <option>Type</option>
+                                <option>Trainee</option>
+                                <option>Employee</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mb-3">
+                            <label for="exampleInputText2" class="h5">Role</label>
+                            <select name="type" class="selectpicker form-control" data-style="py-0">
+                                <option>Role</option>
+                                <option>Designer</option>
+                                <option>Developer</option>
+                                <option>Manager</option>
+                                <option>BDE</option>
+                                <option>SEO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="d-flex flex-wrap align-items-ceter justify-content-center mt-2">
+                            <div class="btn btn-primary mr-3" data-dismiss="modal">Save</div>
+                            <div class="btn btn-primary" data-dismiss="modal">Cancel</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
